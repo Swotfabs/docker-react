@@ -1,0 +1,26 @@
+version: '3'
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: fjunge/course/frontend:dev
+    ports:
+      - "3000:3000"
+    volumes:
+      # - /app/node_modules
+      # - .:/app
+      - ./src:/app/src
+  tests:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: fjunge/course/frontend:tests
+    volumes:
+      - ./src:/app/src
+    command: ["yarn", "run", "test"]
+  prod:
+    build: .
+    image: fjunge/course/frontend:prod
+    ports:
+      - "3001:80"
